@@ -8,27 +8,26 @@
 <body class="framed main-scrollable">
 
 <div class="wrapper">
+
 	<th:block th:replace="fragments/header :: header"></th:block>
 
-	<div class="dashboard" ng-app="dashboardApp" ng-controller="dashCtrl" ng-init="fetchLastResult('all')">
+	<div class="dashboard" ng-app="realtimeFormApp" ng-controller="realTimeCtrl" >
 
 		<th:block th:replace="fragments/sidebar :: sidebar-left"></th:block>
-
 	
 		<div class="main">
           <div class="main__scroll scrollbar-macosx">
 
 
-
 			<div class="container-fluid half-padding">
                 <div class="datalist page page_products products float-right">
                 
-                  <div class="row" >
+                  <div class="row"  >
                     <!-- right sidebar for details -->
                     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                       <div class="products-preview datalist-preview">
-                        <div class="products-preview__cont hide">
-                          <div class="products-preview__name" title="Name">{{selectedSrv.name}}</div>
+                        <div class="products-preview__cont">
+                          <div class="products-preview__name" title="Name">RealTime</div>
                           <!--  div class="products-preview__data">
                             <div class="products-preview__photo">								
                             </div>
@@ -53,39 +52,49 @@
                             	 <div class="preview_jdbc_chart">                            	 	
                             	 </div>
                             </div>
-                            <div class="products-preview__prop" title="Threads Pool">
-                            	<i class="fa fa-money"></i><span class="products-preview__salary"><a href="#" ng-click="showThPoolModal('modal1', selectedSrv.thPool)">Threads Pool</a></span>
+                             <div class="products-preview__prop" title="Threads Pool">
+                            	<i class="fa fa-money"></i><span class="products-preview__salary">Threads Pool</span>
                             	 <div class="preview_threads_chart">                            	 	
                             	 </div>
                             </div>
                           </div>
-                          <div class="products-preview__note">{{selectedSrv.pingId | date:'yyyy-MM-dd HH:mm'}}</div>
                         </div>
                       </div>
                     </div><!-- end right sidebar for details -->
-                   
                     
                     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                       <div class="panel panel-info">
                         <div class="panel-heading">
-                          <h3 class="panel-title">Dashboard</h3>
+                          <h3 class="panel-title">RealTime</h3>
                         </div>
-                       
+                        
+                        <form class="datalist-filter" ng-submit="validate()">
+                        	<div class="col-lg-4 col-md-4">
+                        		<input type="radio" ng-model="showFileDocRT" value="fdoc-cpe-batch.cssf.lu" /><label class="panel-title">&nbsp;&nbsp;FileDoc PROD</label>
+                        	</div>
+                        	<div class="col-lg-4 col-md-4">
+                        		<input type="radio" ng-model="showFileDocRT"  value="fdoc-cpe-batch-v.cssf.lu"/><label class="panel-title">&nbsp;&nbsp;FileDoc VAL</label>
+                        	</div>
+                            <div class="input-group datalist-filter__search">
+                              <input class="form-control" placeholder="" type="text" ng-model="urltomonitor" ng-checked="showFileDocRT ? urltomonitor = showFileDocRT: urltomonitor = ''" autocomplete="on" />
+                              	<span class="input-group-btn">
+	                                <button class="btn btn-info" type="button" role="button" ng-click="validate()" data-toggle="collapse" data-target="#datalist-filter__detail" aria-controls="users__filter-detail" aria-expanded="false">
+	                                  <div class="fa fa-refresh"></div>
+	                                </button>
+                                </span>
+                            </div>
+                          </form>
+                        
                        	<div class="datalist__result">
-                            <ul class="nav nav-tabs" role="tablist">
-                              <li class="active" role="presentation"><a href="#allservers" aria-controls="brand" role="tab" data-toggle="tab">All&nbsp;</a></li>
-                              <li role="presentation"><a href="#filedocsrvlist" aria-controls="digital" role="tab" data-toggle="tab">FileDoc&nbsp;</a></li>
-                              <li role="presentation"><a href="#tramsrvlist" aria-controls="affilate" role="tab" data-toggle="tab">TRAM&nbsp;</a></li>
-                              <!--  li role="presentation"><a href="#new" aria-controls="new" role="tab" data-toggle="tab"><i class="fa fa-plus"></i>&nbsp;New</a></li -->
-                            </ul>
+                           
                             <div class="tab-content">
-	                            <div class="tab-pane active" id="allservers" role="tabpanel" >
+	                            <div>
 	                                <div class="scrollable scrollbar-macosx">
 	                                  	<div class="container-fluid">
 	                                   		<div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
 												<div class="row">
 													<div class="col-sm-12">
-					                                    <table class="datalist__table table datatable display table-hover" width="100%" data-products="tramsrvlist">
+					                                     <table class="datalist__table table datatable display table-hover" width="100%" >
 					                                      <thead>
 					                                        <tr>
 					                                          <th class="srv__pingId">Date</th>
@@ -98,7 +107,7 @@
 					                                        </tr>
 					                                      </thead>
 					                                      <tbody>
-					                                      		<tr role="row" class="clickable-row"   ng-repeat="srv in data.content | orderBy: 'pingId' :true" ng-click="showdetails(srv.id)">
+					                                      		<tr role="row" class="clickable-row"   ng-repeat="srv in data | orderBy: 'pingId' :true" ng-click="showInfoChart(srv.usedMemory, srv.heapSize, srv.jdbc[0].waitingThreadCount, srv.jdbc[0].poolSize, srv.thPool[0].activeCount, srv.thPool[0].poolSize)">
 					                                      			<td class="sorting_1">{{srv.pingId | date:'yyyy-MM-dd HH:mm'}}</td>
 					                                      			<td>
 					                                      				<span ng-class="(srv.usedMemory / srv.heapSize * 100) > 75 ?  'label label-danger' : ''">{{srv.name}}</span>
@@ -118,19 +127,7 @@
 					                                    </table>
 		                                  			</div>
 		                                		</div>
-			                                	<div class="row">
-													<div class="col-sm-5">
-														<div class="dataTables_info" id="DataTables_Table_2_info" role="status" aria-live="polite">Showing {{((data.number * data.size) +1) }} to {{data.number * data.size + data.size }} of {{data.totalElements}} entries</div>
-													</div>
-													<div class="col-sm-7">
-														<div class="dataTables_paginate paging_numbers" id="DataTables_Table_2_paginate">
-															<ul class="pagination">
-																<li class="paginate_button active"><a href="#"  ng-click="nextPage($event)" data-value="{{srvname}}" >Previous</a></li>
-																<li class="paginate_button "><a href="#" ng-click="previousPage($event)" data-value="{{srvname}}" >Next</a></li>
-															</ul>
-														</div>
-													</div>
-												</div>
+			                                	
 	                                		</div>
 	                               		</div>
 	                              	</div>
@@ -140,40 +137,6 @@
                         </div>
                       </div>
                   </div><!-- end row1 -->
-                  
-                  <!-- Modal for details thread pool -->
-                  <div class="modal fade modal1" id="modal1" style="display: none;">
-                      <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                            <h4 class="modal-title">Threads Pool details</h4>
-                          </div>
-                          <div class="modal-body">
-                            <table class="datalist__table table datatable display table-hover" width="70%"  align="center">
-								<thead>
-									<tr rol="row">
-										<th>Pool name</th>
-										<th>Pool size</th>
-										<th>Active count</th>
-									</tr>
-								</thead>
-								<tbody ng-repeat="thp in list_thPool">
-									<tr>
-										<td>{{thp.name}}</td>
-										<td><span ng-class="thp.poolSize > 0 ? 'badge badge-info':''">{{thp.poolSize}}</span></td>
-										<td><span ng-class="thp.activeCount > 0 ? 'badge badge-info':''">{{thp.activeCount}}</span></td>
-									</tr>
-								</tbody>
-							</table>
-                          </div>
-                          <div class="modal-footer">
-                            <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
-                          </div>
-                        </div>
-                      </div>
-                   </div>
-                        
                   
 	           
 				</div>
@@ -185,7 +148,7 @@
 	</div>
 </div>
 <th:block th:replace="fragments/footer :: script-common"></th:block>
-<th:block th:replace="fragments/footer :: script-dashboard"></th:block>
+<th:block th:replace="fragments/footer :: script-realtimeForm"></th:block>
 	
 </body>
 </html>

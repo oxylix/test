@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+    <title>Spring Security Example </title>
+    <div th:replace="fragments/header :: header-css"/>
+</head>
+<body  ng-app="rootApp">
+
+<div th:replace="fragments/header :: header"/>
+
+<div class="container">
+	<th:block th:each="profile : ${readedprofile}">
+		<p th:if="profile" th:text="${profile.firstName}"></p>
+	</th:block>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

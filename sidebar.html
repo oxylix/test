@@ -1,0 +1,84 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="sidebar-left">
+
+	<div class="sidebar">
+		<div class="quickmenu">
+		  <div class="quickmenu__cont">
+		    <div class="quickmenu__list">
+		      <div class="quickmenu__item active">
+		        <div class="fa fa-fw fa-home"></div>
+		      </div>
+		      <div class="quickmenu__item">
+		        <div class="fa fa-fw fa-envelope-o"></div>
+		      </div>
+		      <div class="quickmenu__item new">
+		        <div class="fa fa-fw fa-comments-o"></div>
+		      </div>
+		      <div class="quickmenu__item">
+		        <div class="fa fa-fw fa-feed"></div>
+		      </div>
+		      <div class="quickmenu__item">
+		        <div class="fa fa-fw fa-cog"></div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+  		<div class="scrollable scrollbar-macosx">
+            <div class="sidebar__cont">
+              <div class="sidebar__menu">
+                
+                <div class="sidebar__title">Détails</div>
+                <ul class="nav nav-menu">
+                  <li><a href="#">
+                      <div class="nav-menu__ico"><i class="fa fa-fw fa-folder-o"></i></div>
+                      <div class="nav-menu__text"><span>FileDoc</span></div>
+                      <div class="nav-menu__right"><i class="fa fa-fw fa-angle-right arrow"></i></div></a>
+                    <ul class="nav nav-menu__second collapse">
+                      <li><a href="#" ng-click="fetch($event)" data-value="CpeSRV1">CPE 01</a></li>
+                      <li><a href="#" ng-click="fetch($event)" data-value="CpeSRV2">CPE 02</a></li>
+                      <li><a href="#" ng-click="fetch($event)" data-value="CpeBatchSRV1">CPE Batch 01</a></li>
+                      <li><a href="#" ng-click="fetch($event)" data-value="CpeBatchSRV2">CPE Batch 02</a></li>
+                      <li><a href="#" ng-click="fetch($event)" data-value="NavSRV1">ICN 01</a></li>
+                      <li><a href="#" ng-click="fetch($event)" data-value="NavSRV2">ICN 02</a></li>
+                      <li><a href="#" ng-click="fetch($event)" data-value="NavSRV3">ICN 03</a></li>
+                      <li><a href="#" ng-click="fetch($event)" data-value="NavSRV4">ICN 04</a></li>
+                      <li><a href="#" ng-click="fetch($event)" data-value="WsSRV1">WS 01</a></li>
+                      <li><a href="#" ng-click="fetch($event)" data-value="WsSRV2">WS 02</a></li>
+                      
+                    </ul>
+                  </li>
+                  <li><a href="#">
+                      <div class="nav-menu__ico"><i class="fa fa-fw fa-train"></i></div>
+                      <div class="nav-menu__text"><span>Tram</span></div>
+                      <div class="nav-menu__right"><i class="fa fa-fw fa-angle-right arrow"></i></div></a>
+                    <ul class="nav nav-menu__second collapse">
+                      <li><a href="">FileDocDispatcher-01</a></li>
+                      <li><a href="">FileDocDispatcher-02</a></li>
+                      <li><a href="">TramCanneaux-01</a></li>
+                      <li><a href="">TramCanneaux-02</a></li>
+                    </ul>
+                  </li>
+                </ul>
+                
+                <div class="sidebar__title">IT Changes</div>
+                <ul class="nav nav-menu">
+                  <li><a href="#">
+                      <div class="nav-menu__ico"><i class="fa fa-fw fa-envelope"></i></div>
+                      <div class="nav-menu__text"><span>Production</span></div>
+                      </a>
+                  </li>
+                  <li><a href="#">
+                      <div class="nav-menu__ico"><i class="fa fa-fw fa-envelope"></i></div>
+                      <div class="nav-menu__text"><span>Validation</span></div>
+                      </a>
+                  </li>
+                </ul>
+                
+              </div>
+            </div>
+          </div>
+	</div>
+</th:block>
+</body>
+</html>

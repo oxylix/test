@@ -1,3 +1,6 @@
+var port = process.env.OPENSHIFT_MONGODB_PORT || 27017,
+    mongoHOST = process.env.OPENSHIFT_MONGODB_DB_URL || 'localhost';
+
 module.exports = {
-    DB: 'mongodb://localhost:27017/backend_db'
+    DB: 'mongodb://'+mongoHOST+':'+port+'/backend_db'
  };

@@ -1,3 +1,3 @@
 module.exports = {
-    DB: 'mongodb://localhost:27017/ng_shoops_io_db'
+    DB: 'mongodb://localhost:27017/backend_db'
  };
